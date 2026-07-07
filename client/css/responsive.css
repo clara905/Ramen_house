@@ -1,0 +1,129 @@
+/* Responsive Style Adjustments */
+
+@media (max-width: 991px) {
+  .hero-title {
+    font-size: 42px;
+  }
+  
+  .hero-section {
+    padding: 140px 0 90px 0;
+  }
+  
+  .section-title {
+    font-size: 32px;
+  }
+
+  /* Admin Sidebar mobile toggle defaults */
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    height: 100%;
+    min-height: 100vh;
+  }
+  
+  .sidebar.active {
+    left: 0;
+  }
+  
+  .dashboard-content {
+    padding: 24px;
+    width: 100%;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-title {
+    font-size: 32px;
+  }
+  
+  .hero-desc {
+    font-size: 15px;
+  }
+
+  .section-title-wrapper {
+    margin-bottom: 30px;
+  }
+  
+  .section-title {
+    font-size: 28px;
+  }
+
+  .about-section, .contact-section {
+    padding: 60px 0;
+  }
+
+  .story-badge {
+    position: relative;
+    right: 0;
+    bottom: 0;
+    margin-top: 20px;
+    border-radius: var(--border-radius);
+  }
+
+  .contact-info-card {
+    padding: 24px;
+    margin-bottom: 30px;
+  }
+
+  .map-container {
+    height: 300px;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .stat-info h3 {
+    font-size: 22px;
+  }
+
+  .dashboard-card-wrapper {
+    padding: 16px;
+  }
+
+  .table-ramen th, .table-ramen td {
+    padding: 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 575px) {
+  .hero-section {
+    clip-path: none;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+  }
+
+  .auth-card {
+    box-shadow: none;
+  }
+
+  .auth-body-content {
+    padding: 20px;
+  }
+}
+
+/* Custom Scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C62828;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b32424;
+}

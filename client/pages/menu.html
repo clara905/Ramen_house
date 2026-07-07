@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu - Ramen House</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/client/css/style.css" rel="stylesheet">
+  <link href="/client/css/dashboard.css" rel="stylesheet">
+  <link href="/client/css/responsive.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner-ramen"></div>
+  </div>
+
+  <!-- ==================================================
+       1. CUSTOMER VIEW CONTAINER
+       ================================================== -->
+  <div id="customer-menu-view" style="display: none;">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav align-items-center" id="navbar-nav-links">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header Banner -->
+    <section class="page-header-banner text-center">
+      <div class="container">
+        <h1 class="page-title">Explore Our Japanese Menu</h1>
+        <div class="breadcrumb-ramen">
+          <a href="/client/index.html">Home</a> &nbsp;/&nbsp; <span>Menu</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu Section (Filters & Search) -->
+    <section class="mb-5">
+      <div class="container">
+        <div class="dashboard-card-wrapper mb-5">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
+                <input type="text" class="form-control border-start-0" id="menu-search" placeholder="What are you craving today? (e.g. Shoyu, Gyoza...)">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <select class="form-select" id="menu-category-select">
+                <option value="">All Categories</option>
+                <!-- Categories loaded dynamically -->
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Menu Cards Grid -->
+        <div class="row" id="menu-grid-container">
+          <!-- Dynamically populated -->
+        </div>
+
+        <!-- Customer Pagination -->
+        <nav class="pagination-wrapper d-flex justify-content-center">
+          <ul class="pagination mb-0" id="menu-pagination">
+            <!-- Dynamically populated -->
+          </ul>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-5">
+      <div class="container text-center">
+        <p class="mb-0 text-muted small">&copy; 2026 Ramen House. All Rights Reserved. Crafted for University Final Project.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==================================================
+       2. ADMIN VIEW CONTAINER
+       ================================================== -->
+  <div id="admin-menu-view" class="dashboard-wrapper" style="display: none;">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="dashboard-sidebar">
+      <div class="sidebar-header">
+        <a class="sidebar-brand" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-item">
+          <a href="dashboard.html" class="sidebar-link"><i class="fas fa-chart-line"></i> Dashboard</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="inventory.html" class="sidebar-link"><i class="fas fa-boxes"></i> Inventory</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="menu.html" class="sidebar-link active"><i class="fas fa-utensils"></i> Menu Management</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="orders.html" class="sidebar-link"><i class="fas fa-receipt"></i> Customer Orders</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="reports.html" class="sidebar-link"><i class="fas fa-file-invoice-dollar"></i> Reports</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="profile.html" class="sidebar-link"><i class="fas fa-user-cog"></i> Profile Settings</a>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-link text-danger border-0 bg-transparent p-0" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+      <header class="dashboard-header">
+        <div>
+          <h4 class="fw-bold mb-1">Menu Management Dashboard</h4>
+          <p class="text-muted mb-0 small">Add new dishes, upload food images, edit prices, and toggle menu availability.</p>
+        </div>
+        <div class="d-flex align-items-center">
+          <button class="btn btn-ramen-outline d-lg-none me-3" onclick="document.getElementById('dashboard-sidebar').classList.toggle('active')">
+            <i class="fas fa-bars"></i>
+          </button>
+          <button class="btn btn-ramen-primary py-2 px-3 me-3" onclick="openAddMenu()">
+            <i class="fas fa-plus"></i> Add Menu Item
+          </button>
+          <div class="user-panel-header" onclick="window.location.href='profile.html'">
+            <img id="admin-header-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" class="user-avatar-header" alt="Admin avatar">
+            <span class="fw-semibold d-none d-sm-inline">System Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Admin Toolbar -->
+      <div class="dashboard-card-wrapper mb-4">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
+              <input type="text" class="form-control border-start-0" id="admin-menu-search" placeholder="Search by name...">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <select class="form-select" id="admin-menu-category-select">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Menu List Table -->
+      <div class="dashboard-card-wrapper">
+        <div class="table-responsive">
+          <table class="table table-ramen">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Rating</th>
+                <th>Availability</th>
+                <th>Spice Level</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-menu-list">
+              <!-- Dynamically loaded via menu.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Admin Pagination -->
+        <nav class="pagination-wrapper d-flex justify-content-center">
+          <ul class="pagination mb-0" id="admin-menu-pagination">
+            <!-- Dynamically loaded via menu.js -->
+          </ul>
+        </nav>
+      </div>
+    </main>
+  </div>
+
+  <!-- ==================================================
+       3. MENU CRUD DIALOG MODAL (Admin Only)
+       ================================================== -->
+  <div class="modal fade" id="menu-modal" tabindex="-1" aria-labelledby="menuModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-content-ramen">
+        <div class="modal-header modal-header-ramen">
+          <h5 class="modal-title" id="menu-form-title">Add Menu Item</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="menu-form" enctype="multipart/form-data">
+          <div class="modal-body modal-body-ramen">
+            <input type="hidden" id="menu-item-id">
+            
+            <div class="mb-3">
+              <label for="menu-item-name" class="form-label fw-semibold">Item Name *</label>
+              <input type="text" class="form-control" id="menu-item-name" placeholder="e.g. Shoyu Ramen" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="menu-item-description" class="form-label fw-semibold">Description</label>
+              <textarea class="form-control" id="menu-item-description" rows="3" placeholder="Details ingredients, toppings..."></textarea>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="menu-item-category" class="form-label fw-semibold">Category *</label>
+                <select class="form-select" id="menu-item-category" required>
+                  <option value="">Select Category</option>
+                  <!-- Categories populated dynamically -->
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="menu-item-price" class="form-label fw-semibold">Price ($) *</label>
+                <input type="number" step="0.01" min="0.01" class="form-control" id="menu-item-price" required>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="menu-item-spice" class="form-label fw-semibold">Spice Level</label>
+                <select class="form-select" id="menu-item-spice">
+                  <option value="0">0 (None)</option>
+                  <option value="1">1 (Mild)</option>
+                  <option value="2">2 (Medium)</option>
+                  <option value="3">3 (Hot)</option>
+                </select>
+              </div>
+              <div class="col-md-6 d-flex align-items-center">
+                <div class="form-check mt-4">
+                  <input class="form-check-input" type="checkbox" id="menu-item-availability" checked>
+                  <label class="form-check-label fw-semibold" for="menu-item-availability">
+                    Is Available
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-0">
+              <label for="menu-item-image" class="form-label fw-semibold">Dish Image</label>
+              <input type="file" class="form-control" id="menu-item-image" accept="image/*">
+            </div>
+          </div>
+          <div class="modal-footer modal-footer-ramen">
+            <button type="button" class="btn btn-ramen-dark" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-ramen-primary">Save Item</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Custom JS Modules -->
+  <script src="/client/js/api.js"></script>
+  <script src="/client/js/cart.js"></script>
+  <script src="/client/js/auth.js"></script>
+  <script src="/client/js/menu.js"></script>
+  <script>
+    // Adjust DOM depending on roles
+    document.addEventListener('DOMContentLoaded', () => {
+      const is_admin = isAdmin();
+      if (is_admin) {
+        document.getElementById('admin-menu-view').style.display = 'flex';
+        // Map Admin Search & Category Filter elements to same JS handlers
+        const adminSearch = document.getElementById('admin-menu-search');
+        if (adminSearch) {
+          adminSearch.addEventListener('input', (e) => {
+            document.getElementById('menu-search').value = e.target.value;
+            document.getElementById('menu-search').dispatchEvent(new Event('input'));
+          });
+        }
+        const adminCatSelect = document.getElementById('admin-menu-category-select');
+        if (adminCatSelect) {
+          // Sync category list when category API resolves
+          setTimeout(() => {
+            adminCatSelect.innerHTML = document.getElementById('menu-category-select').innerHTML;
+          }, 1000);
+          adminCatSelect.addEventListener('change', (e) => {
+            document.getElementById('menu-category-select').value = e.target.value;
+            document.getElementById('menu-category-select').dispatchEvent(new Event('change'));
+          });
+        }
+        
+        // Sync pagination container mapping
+        const clientPag = document.getElementById('menu-pagination');
+        const adminPag = document.getElementById('admin-menu-pagination');
+        
+        // Create an observer to sync child content from clientPag to adminPag
+        const observer = new MutationObserver(() => {
+          adminPag.innerHTML = clientPag.innerHTML;
+        });
+        observer.observe(clientPag, { childList: true });
+
+        const user = getLoggedInUser();
+        if (user && user.profile_picture) {
+          document.getElementById('admin-header-avatar').src = `http://localhost:5000/uploads/${user.profile_picture}`;
+        }
+      } else {
+        document.getElementById('customer-menu-view').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

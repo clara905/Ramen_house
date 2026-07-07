@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders - Ramen House</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/client/css/style.css" rel="stylesheet">
+  <link href="/client/css/responsive.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner-ramen"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center" id="navbar-nav-links">
+          <!-- Dynamically populated -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header Banner -->
+  <section class="page-header-banner text-center">
+    <div class="container">
+      <h1 class="page-title">My Orders History</h1>
+      <div class="breadcrumb-ramen">
+        <a href="/client/index.html">Home</a> &nbsp;/&nbsp; <span>My Orders</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Orders History Section -->
+  <section class="mb-5">
+    <div class="container">
+      <div class="dashboard-card-wrapper border shadow-sm">
+        <div class="table-responsive">
+          <table class="table table-ramen align-middle text-center">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Date Placed</th>
+                <th>Payment Method</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="customer-orders-list">
+              <!-- Dynamically populated via orders.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-5">
+    <div class="container text-center">
+      <p class="mb-0 text-muted small">&copy; 2026 Ramen House. All Rights Reserved. Crafted for University Final Project.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Custom JS Modules -->
+  <script src="/client/js/api.js"></script>
+  <script src="/client/js/cart.js"></script>
+  <script src="/client/js/auth.js"></script>
+  <script src="/client/js/orders.js"></script>
+</body>
+</html>

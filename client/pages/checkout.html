@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Ramen House</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/client/css/style.css" rel="stylesheet">
+  <link href="/client/css/responsive.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner-ramen"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center" id="navbar-nav-links">
+          <!-- Dynamically populated -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header Banner -->
+  <section class="page-header-banner text-center">
+    <div class="container">
+      <h1 class="page-title">Checkout</h1>
+      <div class="breadcrumb-ramen">
+        <a href="/client/index.html">Home</a> &nbsp;/&nbsp; <a href="cart.html">Cart</a> &nbsp;/&nbsp; <span>Checkout</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Checkout Section -->
+  <section class="mb-5">
+    <div class="container">
+      <form id="checkout-form">
+        <div class="row">
+          <!-- Delivery Details & Payment -->
+          <div class="col-lg-7 mb-4 mb-lg-0">
+            <div class="dashboard-card-wrapper border shadow-sm mb-4">
+              <h5 class="fw-bold mb-4 border-bottom pb-3">Delivery Information</h5>
+              
+              <div class="mb-3">
+                <label for="checkout-name" class="form-label fw-semibold">Contact Name *</label>
+                <input type="text" class="form-control" id="checkout-name" required placeholder="e.g. John Doe">
+              </div>
+
+              <div class="mb-3">
+                <label for="checkout-phone" class="form-label fw-semibold">Phone Number *</label>
+                <input type="tel" class="form-control" id="checkout-phone" required placeholder="e.g. 123-456-7890">
+              </div>
+
+              <div class="mb-3">
+                <label for="checkout-address" class="form-label fw-semibold">Delivery Address *</label>
+                <textarea class="form-control" id="checkout-address" rows="3" required placeholder="Street address, building number, district..."></textarea>
+              </div>
+
+              <div class="mb-0">
+                <label for="checkout-notes" class="form-label fw-semibold">Order Notes (Optional)</label>
+                <textarea class="form-control" id="checkout-notes" rows="2" placeholder="e.g. Extra spicy, deliver to lobby, egg hard boiled..."></textarea>
+              </div>
+            </div>
+
+            <!-- Payment Options -->
+            <div class="dashboard-card-wrapper border shadow-sm">
+              <h5 class="fw-bold mb-4 border-bottom pb-3">Select Payment Method</h5>
+              
+              <div class="form-check p-3 border rounded mb-3 d-flex align-items-center">
+                <input class="form-check-input me-3 ms-0" type="radio" name="payment_method" id="pay-qris" value="QRIS" checked>
+                <label class="form-check-label w-100" for="pay-qris">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <span class="fw-bold d-block">QRIS Quick Pay</span>
+                      <small class="text-muted">Instant validation using barcode scanner</small>
+                    </div>
+                    <i class="fas fa-qrcode fa-2x text-muted"></i>
+                  </div>
+                </label>
+              </div>
+
+              <div class="form-check p-3 border rounded mb-3 d-flex align-items-center">
+                <input class="form-check-input me-3 ms-0" type="radio" name="payment_method" id="pay-bank" value="Bank Transfer">
+                <label class="form-check-label w-100" for="pay-bank">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <span class="fw-bold d-block">Bank Transfer</span>
+                      <small class="text-muted">Pay via ATM, Mobile Banking, or Internet Banking</small>
+                    </div>
+                    <i class="fas fa-university fa-2x text-muted"></i>
+                  </div>
+                </label>
+              </div>
+
+              <div class="form-check p-3 border rounded mb-0 d-flex align-items-center">
+                <input class="form-check-input me-3 ms-0" type="radio" name="payment_method" id="pay-cash" value="Cash">
+                <label class="form-check-label w-100" for="pay-cash">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <span class="fw-bold d-block">Cash On Delivery</span>
+                      <small class="text-muted">Pay in hand when food is delivered</small>
+                    </div>
+                    <i class="fas fa-wallet fa-2x text-muted"></i>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Checkout Order Summary -->
+          <div class="col-lg-5">
+            <div class="dashboard-card-wrapper border shadow-sm position-sticky" style="top: 100px;">
+              <h5 class="fw-bold mb-4 border-bottom pb-3">Order Summary</h5>
+              
+              <div id="checkout-summary-items">
+                <!-- Dynamically loaded via checkout.js -->
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center mt-4">
+                <span class="fw-semibold text-dark fs-5">Amount Due</span>
+                <span class="fw-bold text-primary-ramen fs-4" id="checkout-summary-total">$0.00</span>
+              </div>
+
+              <button type="submit" class="btn btn-ramen-primary w-100 py-3 mt-4"><i class="fas fa-check-circle"></i> Confirm & Place Order</button>
+              <a href="cart.html" class="btn btn-ramen-dark w-100 py-3 mt-2"><i class="fas fa-arrow-left"></i> Return to Cart</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-5">
+    <div class="container text-center">
+      <p class="mb-0 text-muted small">&copy; 2026 Ramen House. All Rights Reserved. Crafted for University Final Project.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Custom JS Modules -->
+  <script src="/client/js/api.js"></script>
+  <script src="/client/js/cart.js"></script>
+  <script src="/client/js/auth.js"></script>
+  <script src="/client/js/checkout.js"></script>
+</body>
+</html>

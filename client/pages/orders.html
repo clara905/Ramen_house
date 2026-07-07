@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Orders - Ramen House</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/client/css/style.css" rel="stylesheet">
+  <link href="/client/css/dashboard.css" rel="stylesheet">
+  <link href="/client/css/responsive.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner-ramen"></div>
+  </div>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="dashboard-sidebar">
+      <div class="sidebar-header">
+        <a class="sidebar-brand" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-item">
+          <a href="dashboard.html" class="sidebar-link"><i class="fas fa-chart-line"></i> Dashboard</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="inventory.html" class="sidebar-link"><i class="fas fa-boxes"></i> Inventory</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="menu.html" class="sidebar-link"><i class="fas fa-utensils"></i> Menu Management</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="orders.html" class="sidebar-link active"><i class="fas fa-receipt"></i> Customer Orders</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="reports.html" class="sidebar-link"><i class="fas fa-file-invoice-dollar"></i> Reports</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="profile.html" class="sidebar-link"><i class="fas fa-user-cog"></i> Profile Settings</a>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-link text-danger border-0 bg-transparent p-0" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+      <header class="dashboard-header">
+        <div>
+          <h4 class="fw-bold mb-1">Customer Orders Panel</h4>
+          <p class="text-muted mb-0 small">Monitor incoming restaurant orders, toggle preparation flow, and update billing status.</p>
+        </div>
+        <div class="d-flex align-items-center">
+          <button class="btn btn-ramen-outline d-lg-none me-3" onclick="document.getElementById('dashboard-sidebar').classList.toggle('active')">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="user-panel-header" onclick="window.location.href='profile.html'">
+            <img id="header-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" class="user-avatar-header" alt="Admin avatar">
+            <span class="fw-semibold d-none d-sm-inline">System Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Status Filter Toolbar -->
+      <div class="dashboard-card-wrapper mb-4">
+        <div class="row align-items-center">
+          <div class="col-md-3 mb-2 mb-md-0">
+            <label for="admin-order-status-filter" class="form-label mb-0 fw-semibold">Filter by Order Status</label>
+          </div>
+          <div class="col-md-9">
+            <select class="form-select" id="admin-order-status-filter">
+              <option value="">All Orders</option>
+              <option value="Waiting">Waiting</option>
+              <option value="Cooking">Cooking</option>
+              <option value="Ready">Ready</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orders Data Table -->
+      <div class="dashboard-card-wrapper">
+        <div class="table-responsive">
+          <table class="table table-ramen">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer Name</th>
+                <th>Order Date</th>
+                <th>Payment Method</th>
+                <th>Total Price</th>
+                <th>Order Status</th>
+                <th>Payment Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="admin-orders-list">
+              <!-- Dynamically populated via orders.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <nav class="pagination-wrapper d-flex justify-content-center">
+          <ul class="pagination mb-0" id="admin-orders-pagination">
+            <!-- Dynamically populated via orders.js -->
+          </ul>
+        </nav>
+      </div>
+    </main>
+  </div>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Custom JS Modules -->
+  <script src="/client/js/api.js"></script>
+  <script src="/client/js/auth.js"></script>
+  <script src="/client/js/orders.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getLoggedInUser();
+      if (user && user.profile_picture) {
+        document.getElementById('header-avatar').src = `http://localhost:5000/uploads/${user.profile_picture}`;
+      }
+    });
+  </script>
+</body>
+</html>

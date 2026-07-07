@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Detail - Ramen House</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/client/css/style.css" rel="stylesheet">
+  <link href="/client/css/responsive.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner-ramen"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center" id="navbar-nav-links">
+          <!-- Dynamically populated -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Detail Content Section -->
+  <section class="py-5" style="margin-top: 50px;">
+    <div class="container">
+      <div class="row align-items-center">
+        <!-- Dish Large Image -->
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <div class="rounded overflow-hidden shadow-sm" style="height: 450px;">
+            <img id="detail-image" src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&q=80&w=800" class="w-100 h-100 object-fit-cover" alt="Dish image">
+          </div>
+        </div>
+        <!-- Dish Details -->
+        <div class="col-lg-6 ps-lg-5">
+          <span class="badge bg-primary-ramen mb-2 py-2 px-3 fs-6" id="detail-category">Ramen</span>
+          <div class="d-flex align-items-center mb-3 flex-wrap gap-2">
+            <h2 class="fw-bold mb-0" id="detail-name">Chicken Ramen</h2>
+            <span id="detail-cart-badge" class="badge bg-success py-2 px-3" style="display: none;"><i class="fas fa-shopping-cart"></i> <span id="detail-cart-qty">0</span> in cart</span>
+          </div>
+          
+          <div class="d-flex align-items-center mb-3">
+            <div class="text-warning me-2" id="detail-rating-stars">
+              <!-- Stars populated via JS -->
+            </div>
+            <span class="fw-semibold text-muted small" id="detail-rating-text">(4.8 rating)</span>
+          </div>
+
+          <h3 class="fw-bold text-primary-ramen mb-4" id="detail-price">$12.99</h3>
+          
+          <p class="text-muted mb-4 fs-5" id="detail-description">
+            Rich, creamy chicken broth topped with tender chicken slices, soft-boiled egg, green onions, and bamboo shoots.
+          </p>
+
+          <!-- Spice & Details info -->
+          <div class="row g-3 mb-4 py-3 border-top border-bottom">
+            <div class="col-6">
+              <span class="text-muted d-block small">Spice Level</span>
+              <span class="fw-bold text-danger fs-5" id="detail-spice">🌶️ (Mild)</span>
+            </div>
+            <div class="col-6">
+              <span class="text-muted d-block small">Ingredients</span>
+              <span id="detail-ingredients" class="fw-bold text-dark small">Fresh Noodles, Chicken Broth, Ajitsuke Egg, Scallions</span>
+            </div>
+          </div>
+
+          <!-- Quantity Selector and CTA Button -->
+          <div class="d-flex align-items-center" id="purchase-controls">
+            <div class="input-group me-3" style="width: 130px;">
+              <button class="btn btn-outline-secondary" type="button" onclick="adjustQty(-1)"><i class="fas fa-minus"></i></button>
+              <input type="text" class="form-control text-center fw-bold" id="detail-qty" value="1" readonly>
+              <button class="btn btn-outline-secondary" type="button" onclick="adjustQty(1)"><i class="fas fa-plus"></i></button>
+            </div>
+            <button class="btn btn-ramen-primary py-3 px-4 flex-grow-1" id="btn-add-cart-detail"><i class="fas fa-shopping-cart"></i> Add To Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-5">
+    <div class="container text-center">
+      <p class="mb-0 text-muted small">&copy; 2026 Ramen House. All Rights Reserved. Crafted for University Final Project.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Custom JS Modules -->
+  <script src="/client/js/api.js"></script>
+  <script src="/client/js/cart.js"></script>
+  <script src="/client/js/auth.js"></script>
+  <script>
+    let menuItemDetails = null;
+
+    function getIngredients(menuName) {
+      const name = (menuName || '').toLowerCase();
+      if (name.includes('chicken ramen')) {
+        return 'Fresh Noodles, Chicken Broth, Ajitsuke Egg, Chicken Slices, Scallions';
+      }
+      if (name.includes('beef ramen')) {
+        return 'Fresh Noodles, Beef Broth, Ajitsuke Egg, Marinated Beef Slices, Bok Choy, Nori';
+      }
+      if (name.includes('shoyu ramen')) {
+        return 'Fresh Noodles, Shoyu Broth, Pork Chashu, Bamboo Shoots, Scallions';
+      }
+      if (name.includes('spicy miso')) {
+        return 'Fresh Noodles, Spicy Miso Broth, Pork Chashu, Wood Ear Mushrooms, Corn, Fresh Chili';
+      }
+      if (name.includes('curry ramen')) {
+        return 'Fresh Noodles, Curry Broth, Tempura Prawns, Carrots, Potatoes, Scallions';
+      }
+      if (name.includes('gyoza')) {
+        return 'Minced Pork, Cabbage, Garlic, Gyoza Wrappers, Dipping Sauce';
+      }
+      if (name.includes('karaage')) {
+        return 'Chicken Thigh Bites, Soy Sauce, Sake, Garlic, Ginger, Cornstarch, Kewpie Mayo';
+      }
+      if (name.includes('matcha latte')) {
+        return 'Uji Matcha Powder, Hot Water, Steamed Milk, Honey/Sugar';
+      }
+      if (name.includes('ocha')) {
+        return 'Japanese Sencha Tea Leaves, Hot Water';
+      }
+      return 'Fresh Noodles, Chicken Broth, Ajitsuke Egg, Scallions';
+    }
+
+    function getFallbackImage(categoryName, width = 800) {
+      const cat = (categoryName || '').toLowerCase();
+      let imgId = '1569718212165-3a8278d5f624'; // Ramen default
+      if (cat.includes('drink')) {
+        imgId = '1536256263959-770b48d82b0a'; // Matcha
+      } else if (cat.includes('side')) {
+        imgId = '1563379091339-03b21ab4a4f8'; // Gyoza
+      } else if (cat.includes('dessert')) {
+        imgId = '1587314168485-3236d6710814'; // Mochi
+      }
+      return `https://images.unsplash.com/photo-${imgId}?auto=format&fit=crop&q=80&w=${width}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Extract Menu ID from URL query parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+
+      if (!id) {
+        window.location.href = 'menu.html';
+        return;
+      }
+
+      // Fetch Details
+      const response = await apiRequest(`/menu/${id}`);
+      if (!response || !response.success) {
+        showToast('error', 'Could not load details. Redirecting to menu...');
+        setTimeout(() => { window.location.href = 'menu.html'; }, 2000);
+        return;
+      }
+
+      menuItemDetails = response.data;
+      
+      // Populate fields
+      document.getElementById('detail-name').textContent = menuItemDetails.name;
+      document.getElementById('detail-description').textContent = menuItemDetails.description || 'No description available.';
+      document.getElementById('detail-category').textContent = menuItemDetails.category_name;
+      document.getElementById('detail-price').textContent = formatPrice(menuItemDetails.price);
+      document.getElementById('detail-rating-text').textContent = `(${parseFloat(menuItemDetails.rating).toFixed(1)} rating)`;
+      document.getElementById('detail-ingredients').textContent = getIngredients(menuItemDetails.name);
+
+      // Render Image
+      const fallbackUrl = getFallbackImage(menuItemDetails.category_name, 800);
+      const imageUrl = menuItemDetails.image ? `http://localhost:5000/uploads/${menuItemDetails.image}` : fallbackUrl;
+      const detailImage = document.getElementById('detail-image');
+      detailImage.src = imageUrl;
+      detailImage.onerror = () => { detailImage.src = fallbackUrl; };
+
+      // Render Rating Stars
+      const ratingVal = Math.round(menuItemDetails.rating);
+      let starsHtml = '';
+      for (let i = 1; i <= 5; i++) {
+        starsHtml += i <= ratingVal ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
+      }
+      document.getElementById('detail-rating-stars').innerHTML = starsHtml;
+
+      // Render Spice Level
+      const spiceLabels = ['None', 'Mild', 'Medium', 'Hot'];
+      const spiceIndicator = menuItemDetails.spice_level > 0 ? '🌶️'.repeat(menuItemDetails.spice_level) : 'None';
+      document.getElementById('detail-spice').textContent = `${spiceIndicator} (${spiceLabels[menuItemDetails.spice_level]})`;
+
+      // Sold out check
+      if (!menuItemDetails.availability) {
+        const pControls = document.getElementById('purchase-controls');
+        if (pControls) {
+          pControls.innerHTML = `<button class="btn btn-secondary w-100 py-3" disabled><i class="fas fa-ban"></i> Currently Unavailable / Sold Out</button>`;
+        }
+      } else {
+        // Add to Cart Button Click handler
+        document.getElementById('btn-add-cart-detail').addEventListener('click', () => {
+          const qty = parseInt(document.getElementById('detail-qty').value);
+          addToCart(menuItemDetails, qty);
+        });
+      }
+
+      // Update Detail Page Cart Badge
+      function updateDetailCartBadge() {
+        const cart = getCart();
+        const cartItem = cart.find(c => c.id === menuItemDetails.id);
+        const cartBadge = document.getElementById('detail-cart-badge');
+        const cartQtySpan = document.getElementById('detail-cart-qty');
+        if (cartItem && cartItem.quantity > 0) {
+          cartQtySpan.textContent = cartItem.quantity;
+          cartBadge.style.display = 'inline-block';
+        } else {
+          cartBadge.style.display = 'none';
+        }
+      }
+      
+      updateDetailCartBadge();
+      window.loadMenuDetail = updateDetailCartBadge;
+    });
+
+    function adjustQty(amount) {
+      const qtyInput = document.getElementById('detail-qty');
+      let currentVal = parseInt(qtyInput.value);
+      currentVal += amount;
+      if (currentVal < 1) currentVal = 1;
+      qtyInput.value = currentVal;
+    }
+  </script>
+</body>
+</html>

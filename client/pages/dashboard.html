@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Ramen House</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/client/css/style.css" rel="stylesheet">
+  <link href="/client/css/dashboard.css" rel="stylesheet">
+  <link href="/client/css/responsive.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner-ramen"></div>
+  </div>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="dashboard-sidebar">
+      <div class="sidebar-header">
+        <a class="sidebar-brand" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-item">
+          <a href="dashboard.html" class="sidebar-link active"><i class="fas fa-chart-line"></i> Dashboard</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="inventory.html" class="sidebar-link"><i class="fas fa-boxes"></i> Inventory</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="menu.html" class="sidebar-link"><i class="fas fa-utensils"></i> Menu Management</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="orders.html" class="sidebar-link"><i class="fas fa-receipt"></i> Customer Orders</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="reports.html" class="sidebar-link"><i class="fas fa-file-invoice-dollar"></i> Reports</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="profile.html" class="sidebar-link"><i class="fas fa-user-cog"></i> Profile Settings</a>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-link text-danger border-0 bg-transparent p-0" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+      <header class="dashboard-header">
+        <div>
+          <h4 class="fw-bold mb-1">Welcome back, Admin!</h4>
+          <p class="text-muted mb-0 small">Overview of Ramen House operations and restaurant analytics.</p>
+        </div>
+        <div class="d-flex align-items-center">
+          <!-- Mobile Sidebar Toggle -->
+          <button class="btn btn-ramen-outline d-lg-none me-3" onclick="document.getElementById('dashboard-sidebar').classList.toggle('active')">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="user-panel-header" onclick="window.location.href='profile.html'">
+            <img id="header-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" class="user-avatar-header" alt="Admin avatar">
+            <span class="fw-semibold d-none d-sm-inline">System Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Grid Summary Metrics -->
+      <div class="row g-4 mb-5">
+        <!-- 1. Total Menu -->
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="stat-info">
+              <h6>Total Menu</h6>
+              <h3 id="total-menu-count">0</h3>
+            </div>
+            <div class="stat-icon red"><i class="fas fa-hamburger"></i></div>
+          </div>
+        </div>
+        <!-- 2. Total Ingredients -->
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="stat-info">
+              <h6>Ingredients</h6>
+              <h3 id="total-ingredients-count">0</h3>
+            </div>
+            <div class="stat-icon yellow"><i class="fas fa-carrot"></i></div>
+          </div>
+        </div>
+        <!-- 3. Today's Orders -->
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="stat-info">
+              <h6>Today's Orders</h6>
+              <h3 id="today-orders-count">0</h3>
+            </div>
+            <div class="stat-icon blue"><i class="fas fa-shopping-basket"></i></div>
+          </div>
+        </div>
+        <!-- 4. Monthly Revenue -->
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="stat-info">
+              <h6>Monthly Revenue</h6>
+              <h3 id="monthly-revenue-count">$0.00</h3>
+            </div>
+            <div class="stat-icon green"><i class="fas fa-wallet"></i></div>
+          </div>
+        </div>
+        <!-- Extra metric widgets -->
+        <div class="col-md-6">
+          <div class="stat-card">
+            <div class="stat-info">
+              <h6>Total Customers</h6>
+              <h3 id="total-customers-count">0</h3>
+            </div>
+            <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="stat-card">
+            <div class="stat-info">
+              <h6>Low/Out of Stock Items</h6>
+              <h3 id="low-stock-count">0</h3>
+            </div>
+            <div class="stat-icon red"><i class="fas fa-exclamation-triangle"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="row mb-5">
+        <div class="col-xl-8 mb-4 mb-xl-0">
+          <div class="dashboard-card-wrapper h-100">
+            <h5 class="card-title-dashboard">7-Day Sales & Order Volumes</h5>
+            <div style="height: 350px;">
+              <canvas id="salesLineChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4">
+          <div class="dashboard-card-wrapper h-100">
+            <h5 class="card-title-dashboard">Monthly Earnings</h5>
+            <div style="height: 350px;">
+              <canvas id="revenueBarChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Orders Log Table -->
+      <div class="dashboard-card-wrapper">
+        <div class="card-title-dashboard">
+          <span>Recent Orders</span>
+          <a href="orders.html" class="btn btn-sm btn-ramen-outline py-1 px-3">View All Orders</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-ramen">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Order Date</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Payment</th>
+              </tr>
+            </thead>
+            <tbody id="recent-orders-list">
+              <!-- Dynamically loaded via dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ChartJS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Custom JS Modules -->
+  <script src="/client/js/api.js"></script>
+  <script src="/client/js/auth.js"></script>
+  <script src="/client/js/dashboard.js"></script>
+  <script>
+    // Prefill header avatar on page load from local storage
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getLoggedInUser();
+      if (user && user.profile_picture) {
+        document.getElementById('header-avatar').src = `http://localhost:5000/uploads/${user.profile_picture}`;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Settings - Ramen House</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/client/css/style.css" rel="stylesheet">
+  <link href="/client/css/dashboard.css" rel="stylesheet">
+  <link href="/client/css/responsive.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner-ramen"></div>
+  </div>
+
+  <!-- ==================================================
+       1. CUSTOMER NAVBAR CONTAINER (Hidden for Admin)
+       ================================================== -->
+  <nav class="navbar navbar-expand-lg sticky-top" id="customer-navbar" style="display: none;">
+    <div class="container">
+      <a class="navbar-brand" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center" id="navbar-nav-links">
+          <!-- Dynamically populated -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================================================
+       MAIN WRAPPER
+       ================================================== -->
+  <div id="main-profile-wrapper" class="">
+    <!-- Sidebar (Will be dynamically initialized for Admin role) -->
+    <aside class="sidebar" id="dashboard-sidebar" style="display: none;">
+      <div class="sidebar-header">
+        <a class="sidebar-brand" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-item">
+          <a href="dashboard.html" class="sidebar-link"><i class="fas fa-chart-line"></i> Dashboard</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="inventory.html" class="sidebar-link"><i class="fas fa-boxes"></i> Inventory</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="menu.html" class="sidebar-link"><i class="fas fa-utensils"></i> Menu Management</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="orders.html" class="sidebar-link"><i class="fas fa-receipt"></i> Customer Orders</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="reports.html" class="sidebar-link"><i class="fas fa-file-invoice-dollar"></i> Reports</a>
+        </li>
+        <li class="sidebar-item">
+          <a href="profile.html" class="sidebar-link active"><i class="fas fa-user-cog"></i> Profile Settings</a>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-link text-danger border-0 bg-transparent p-0" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="" id="profile-content-area" style="padding: 40px; flex-grow: 1;">
+      <header class="dashboard-header mb-5" id="profile-page-header">
+        <div>
+          <h4 class="fw-bold mb-1">Account & Security Profile</h4>
+          <p class="text-muted mb-0 small">Update your name, contact phone, delivery coordinates, and passwords.</p>
+        </div>
+        <div class="d-flex align-items-center d-lg-none">
+          <button class="btn btn-ramen-outline me-3" id="mobile-toggle-btn" style="display: none;" onclick="document.getElementById('dashboard-sidebar').classList.toggle('active')">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </header>
+
+      <div class="row">
+        <!-- Profile details -->
+        <div class="col-lg-7 mb-4 mb-lg-0">
+          <div class="dashboard-card-wrapper border shadow-sm">
+            <h5 class="fw-bold border-bottom pb-2 mb-4">Edit Profile</h5>
+            <form id="profile-form">
+              <!-- Avatar Upload Container -->
+              <div class="d-flex align-items-center mb-4">
+                <img id="profile-avatar-preview" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" class="rounded-circle border me-4" style="width: 100px; height: 100px; object-fit: cover;">
+                <div>
+                  <label for="profile-picture-input" class="btn btn-sm btn-ramen-outline py-2 mb-2"><i class="fas fa-upload"></i> Upload Image</label>
+                  <input type="file" id="profile-picture-input" accept="image/*" class="d-none">
+                  <div class="small text-muted">JPG, PNG or WEBP. Max 5MB size.</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="profile-name" class="form-label fw-semibold">Full Name *</label>
+                <input type="text" class="form-control" id="profile-name" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="profile-email" class="form-label fw-semibold">Email Address (Read-only)</label>
+                <input type="email" class="form-control" id="profile-email" readonly>
+              </div>
+
+              <div class="mb-3">
+                <label for="profile-phone" class="form-label fw-semibold">Phone Number</label>
+                <input type="tel" class="form-control" id="profile-phone">
+              </div>
+
+              <div class="mb-4">
+                <label for="profile-address" class="form-label fw-semibold">Default Address</label>
+                <textarea class="form-control" id="profile-address" rows="3"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-ramen-primary px-4 py-2"><i class="fas fa-save"></i> Save Changes</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Password Change -->
+        <div class="col-lg-5">
+          <div class="dashboard-card-wrapper border shadow-sm">
+            <h5 class="fw-bold border-bottom pb-2 mb-4">Update Password</h5>
+            <form id="password-form">
+              <div class="mb-3">
+                <label for="current-password" class="form-label fw-semibold">Current Password</label>
+                <input type="password" class="form-control" id="current-password" required placeholder="••••••••">
+              </div>
+              <div class="mb-3">
+                <label for="new-password" class="form-label fw-semibold">New Password</label>
+                <input type="password" class="form-control" id="new-password" required minlength="6" placeholder="Min 6 characters">
+              </div>
+              <div class="mb-4">
+                <label for="confirm-password" class="form-label fw-semibold">Confirm New Password</label>
+                <input type="password" class="form-control" id="confirm-password" required minlength="6" placeholder="••••••••">
+              </div>
+              <button type="submit" class="btn btn-ramen-primary px-4 py-2"><i class="fas fa-key"></i> Change Password</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer (Visible only for customer role) -->
+  <footer class="mt-5" id="customer-footer" style="display: none;">
+    <div class="container text-center">
+      <p class="mb-0 text-muted small">&copy; 2026 Ramen House. All Rights Reserved. Crafted for University Final Project.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Custom JS Modules -->
+  <script src="/client/js/api.js"></script>
+  <script src="/client/js/auth.js"></script>
+  <script src="/client/js/profile.js"></script>
+  <script>
+    // Setup role layout configurations
+    document.addEventListener('DOMContentLoaded', () => {
+      const is_admin = isAdmin();
+      const mainWrapper = document.getElementById('main-profile-wrapper');
+      const contentArea = document.getElementById('profile-content-area');
+
+      if (is_admin) {
+        // Show Admin Sidebar
+        document.getElementById('dashboard-sidebar').style.display = 'flex';
+        document.getElementById('mobile-toggle-btn').style.display = 'block';
+        mainWrapper.classList.add('dashboard-wrapper');
+        contentArea.classList.add('dashboard-content');
+        
+        // Hide Customer Elements
+        document.getElementById('customer-navbar').style.display = 'none';
+        document.getElementById('customer-footer').style.display = 'none';
+      } else {
+        // Customer Profile View
+        document.getElementById('customer-navbar').style.display = 'block';
+        document.getElementById('customer-footer').style.display = 'block';
+        
+        // Disable Admin sidebar modifications
+        document.getElementById('dashboard-sidebar').style.display = 'none';
+        mainWrapper.classList.remove('dashboard-wrapper');
+        contentArea.classList.remove('dashboard-content');
+        
+        // Add padding adjustments
+        contentArea.style.padding = '80px 0 50px 0';
+        contentArea.classList.add('container');
+        
+        // Hide dashboard-specific headers
+        document.getElementById('profile-page-header').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

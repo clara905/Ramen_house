@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - Ramen House</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/client/css/style.css" rel="stylesheet">
+  <link href="/client/css/responsive.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner-ramen"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center" id="navbar-nav-links">
+          <!-- Dynamically populated -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header Banner -->
+  <section class="page-header-banner text-center">
+    <div class="container">
+      <h1 class="page-title">Shopping Cart</h1>
+      <div class="breadcrumb-ramen">
+        <a href="/client/index.html">Home</a> &nbsp;/&nbsp; <a href="menu.html">Menu</a> &nbsp;/&nbsp; <span>Cart</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart Table Section -->
+  <section class="mb-5">
+    <div class="container">
+      <div class="row">
+        <!-- Cart Items List Table -->
+        <div class="col-lg-8 mb-4 mb-lg-0">
+          <div class="dashboard-card-wrapper border shadow-sm">
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+              <h5 class="fw-bold mb-0">Items In Cart</h5>
+              <button class="btn btn-sm btn-ramen-outline py-1 px-3" onclick="triggerClearCart()">
+                <i class="fas fa-trash-alt"></i> Clear Cart
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr class="text-muted small uppercase">
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="cart-items-list">
+                  <!-- Dynamically loaded via cart script -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checkout Summary Card -->
+        <div class="col-lg-4">
+          <div class="dashboard-card-wrapper border shadow-sm">
+            <h5 class="fw-bold mb-4 border-bottom pb-3">Cart Summary</h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Subtotal</span>
+              <span class="fw-semibold" id="cart-summary-subtotal">$0.00</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Delivery Fee</span>
+              <span class="fw-semibold text-success">FREE</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <span class="fw-bold fs-5 text-dark">Grand Total</span>
+              <span class="fw-bold fs-4 text-primary-ramen" id="cart-summary-total">$0.00</span>
+            </div>
+            <a href="checkout.html" class="btn btn-ramen-primary w-100 py-3"><i class="fas fa-credit-card"></i> Proceed to Checkout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-5">
+    <div class="container text-center">
+      <p class="mb-0 text-muted small">&copy; 2026 Ramen House. All Rights Reserved. Crafted for University Final Project.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Custom JS Modules -->
+  <script src="/client/js/api.js"></script>
+  <script src="/client/js/cart.js"></script>
+  <script src="/client/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCartItems();
+    });
+
+    function loadCartItems() {
+      const container = document.getElementById('cart-items-list');
+      if (!container) return;
+
+      const cart = getCart();
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <tr>
+            <td colspan="5" class="text-center py-5 text-muted">
+              <i class="fas fa-shopping-cart fa-3x mb-3 d-block"></i>
+              Your shopping cart is empty. <a href="menu.html" class="text-primary-ramen fw-semibold">Browse our Menu</a>
+            </td>
+          </tr>
+        `;
+        document.getElementById('cart-summary-subtotal').textContent = '$0.00';
+        document.getElementById('cart-summary-total').textContent = '$0.00';
+        return;
+      }
+
+      let html = '';
+      let total = 0;
+
+      cart.forEach(item => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+
+        const imageUrl = item.image ? `http://localhost:5000/uploads/${item.image}` : 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&q=80&w=150';
+
+        html += `
+          <tr id="cart-row-${item.id}">
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="${imageUrl}" onerror="this.src='https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&q=80&w=150'" class="rounded border me-3" style="width: 60px; height: 60px; object-fit: cover;">
+                <span class="fw-semibold text-dark">${item.name}</span>
+              </div>
+            </td>
+            <td class="fw-semibold">${formatPrice(item.price)}</td>
+            <td>
+              <div class="input-group input-group-sm" style="width: 100px;">
+                <button class="btn btn-outline-secondary" type="button" onclick="modifyQty(${item.id}, -1)"><i class="fas fa-minus"></i></button>
+                <input type="text" class="form-control text-center fw-bold bg-white" id="qty-input-${item.id}" value="${item.quantity}" readonly>
+                <button class="btn btn-outline-secondary" type="button" onclick="modifyQty(${item.id}, 1)"><i class="fas fa-plus"></i></button>
+              </div>
+            </td>
+            <td class="fw-bold text-primary-ramen" id="subtotal-${item.id}">${formatPrice(subtotal)}</td>
+            <td>
+              <button class="btn btn-sm btn-link text-danger" onclick="triggerRemoveItem(${item.id})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      container.innerHTML = html;
+      document.getElementById('cart-summary-subtotal').textContent = formatPrice(total);
+      document.getElementById('cart-summary-total').textContent = formatPrice(total);
+    }
+
+    function modifyQty(itemId, amount) {
+      const input = document.getElementById(`qty-input-${itemId}`);
+      let currentVal = parseInt(input.value);
+      currentVal += amount;
+      
+      updateCartQty(itemId, currentVal);
+      loadCartItems();
+    }
+
+    function triggerRemoveItem(itemId) {
+      removeFromCart(itemId);
+      loadCartItems();
+    }
+
+    function triggerClearCart() {
+      Swal.fire({
+        title: 'Clear Cart',
+        text: 'Are you sure you want to empty your shopping cart?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#C62828',
+        cancelButtonColor: '#2D2D2D',
+        confirmButtonText: 'Yes, clear!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          clearCart();
+          loadCartItems();
+          showToast('success', 'Cart cleared successfully.');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

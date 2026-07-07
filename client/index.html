@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ramen House - Modern Japanese Restaurant</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Discover Ramen House - the finest modern Japanese restaurant offering authentic, hand-crafted ramen, delicious gyozas, and refreshing drinks. Order online now!">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/client/css/style.css" rel="stylesheet">
+  <link href="/client/css/responsive.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner-ramen"></div>
+  </div>
+
+  <!-- Header / Navigation Bar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center" id="navbar-nav-links">
+          <!-- Dynamically populated via auth.js -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section d-flex align-items-center">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-7" data-aos="fade-right">
+          <span class="hero-subtitle">Taste of Tokyo</span>
+          <h1 class="hero-title mt-2 mb-4">Authentic Japanese Ramen Crafted With Passion</h1>
+          <p class="hero-desc mb-5">Experience our rich, 18-hour slow-cooked broths, hand-crafted noodles, and tender marinated chashu pork that bring the warmth of Japan right to your bowl.</p>
+          <div class="hero-btns">
+            <a href="/client/pages/menu.html" class="btn btn-ramen-primary me-3"><i class="fas fa-utensils"></i> Order Online</a>
+            <a href="#about" class="btn btn-ramen-outline text-white"><i class="fas fa-book-open"></i> Our Story</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promotions Section -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-6 section-title-wrapper">
+          <span class="section-subtitle">Specials</span>
+          <h2 class="section-title">Limited Time Promotions</h2>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Promo 1 -->
+        <div class="col-md-6 mb-4">
+          <div class="card bg-dark text-white border-0 overflow-hidden shadow" style="border-radius: var(--border-radius); height: 200px;">
+            <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&q=80&w=800" class="card-img h-100 object-fit-cover opacity-50" alt="Lunch special">
+            <div class="card-img-overlay d-flex flex-column justify-content-center p-4">
+              <span class="badge bg-primary-ramen align-self-start mb-2 py-2 px-3">20% OFF</span>
+              <h3 class="card-title fw-bold">Lunch Combo Special</h3>
+              <p class="card-text">Get any Ramen + Side + Drink every Monday to Friday from 11:00 AM - 3:00 PM.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Promo 2 -->
+        <div class="col-md-6 mb-4">
+          <div class="card bg-dark text-white border-0 overflow-hidden shadow" style="border-radius: var(--border-radius); height: 200px;">
+            <img src="https://images.unsplash.com/photo-1547928576-a4a3323dce9d?auto=format&fit=crop&q=80&w=800" class="card-img h-100 object-fit-cover opacity-50" alt="Free Gyoza">
+            <div class="card-img-overlay d-flex flex-column justify-content-center p-4">
+              <span class="badge bg-success align-self-start mb-2 py-2 px-3">FREE SIDE</span>
+              <h3 class="card-title fw-bold">Gyoza Weekend Fest</h3>
+              <p class="card-text">Free plate of Pork Gyoza with any purchase of 2 bowls of Spicy Miso Ramen.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Menu Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-6 section-title-wrapper">
+          <span class="section-subtitle">Must Try</span>
+          <h2 class="section-title">Our Signature Dishes</h2>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Card 1 -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="menu-card">
+            <div class="menu-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&q=80&w=600" class="menu-img" alt="Spicy Miso">
+              <span class="menu-tag">Ramen</span>
+              <span class="menu-rating"><i class="fas fa-star"></i> 4.9</span>
+            </div>
+            <div class="menu-card-body">
+              <h5 class="menu-title">Spicy Miso Ramen</h5>
+              <p class="menu-desc">Spicy miso-flavored rich broth topped with pork chashu, sweet corn, wood ear mushrooms, and fresh chili.</p>
+              <div class="menu-footer">
+                <span class="menu-price">$13.99</span>
+                <a href="/client/pages/menu.html" class="btn btn-sm btn-ramen-primary py-2 px-3">Order Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="menu-card">
+            <div class="menu-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1557872943-16a5ac26437e?auto=format&fit=crop&q=80&w=600" class="menu-img" alt="Chicken Ramen">
+              <span class="menu-tag">Ramen</span>
+              <span class="menu-rating"><i class="fas fa-star"></i> 4.8</span>
+            </div>
+            <div class="menu-card-body">
+              <h5 class="menu-title">Chicken Ramen</h5>
+              <p class="menu-desc">Rich, creamy chicken broth topped with tender chicken slices, soft-boiled egg, green onions, and bamboo shoots.</p>
+              <div class="menu-footer">
+                <span class="menu-price">$12.99</span>
+                <a href="/client/pages/menu.html" class="btn btn-sm btn-ramen-primary py-2 px-3">Order Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="menu-card">
+            <div class="menu-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&q=80&w=600" class="menu-img" alt="Gyoza">
+              <span class="menu-tag">Sides</span>
+              <span class="menu-rating"><i class="fas fa-star"></i> 4.6</span>
+            </div>
+            <div class="menu-card-body">
+              <h5 class="menu-title">Pork Gyoza</h5>
+              <p class="menu-desc">Pan-fried Japanese dumplings filled with seasoned minced pork and cabbage, served with dipping sauce.</p>
+              <div class="menu-footer">
+                <span class="menu-price">$5.99</span>
+                <a href="/client/pages/menu.html" class="btn btn-sm btn-ramen-primary py-2 px-3">Order Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section" id="about">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <div class="about-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=800" class="img-fluid" alt="Sushi and Ramen table">
+            <div class="story-badge shadow">
+              <h4>12+</h4>
+              <p class="mb-0 text-white small">Years of Tradition</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 ps-lg-5">
+          <span class="section-subtitle">Since 2014</span>
+          <h2 class="section-title text-start mb-4">Crafting Memories, One Bowl at a Time</h2>
+          <p class="mb-4 text-muted">Ramen House began as a small street cart in Shibuya, Tokyo. Our founder, Chef Takeshi, dedicated years to master the art of broth preparation. His philosophy is simple: source the freshest local ingredients and honor the traditional Japanese techniques.</p>
+          <p class="mb-5 text-muted">We bring that exact Shibuya street cart recipe straight to your neighborhood, blending traditional umami tastes with modern hospitality and high-end restaurant service.</p>
+          <a href="/client/pages/menu.html" class="btn btn-ramen-primary"><i class="fas fa-chevron-right"></i> View Full Menu</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-6 section-title-wrapper">
+          <span class="section-subtitle">Reviews</span>
+          <h2 class="section-title">What Our Guests Say</h2>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Review 1 -->
+        <div class="col-md-4 mb-4">
+          <div class="testimonial-card">
+            <div class="stars mb-3 text-warning">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">"The Spicy Miso Ramen is absolutely exceptional! The depth of the broth flavor is something I haven't tasted outside of Tokyo."</p>
+            <div class="client-info">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150" class="client-img" alt="Emily R.">
+              <div>
+                <h6 class="client-name">Emily Rose</h6>
+                <span class="client-role">Food Blogger</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Review 2 -->
+        <div class="col-md-4 mb-4">
+          <div class="testimonial-card">
+            <div class="stars mb-3 text-warning">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </div>
+            <p class="testimonial-text">"Ordering online is super fast. The noodles were packaged separately from the soup, ensuring they arrived perfectly springy!"</p>
+            <div class="client-info">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150" class="client-img" alt="Marcus K.">
+              <div>
+                <h6 class="client-name">Marcus King</h6>
+                <span class="client-role">Regular Customer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Review 3 -->
+        <div class="col-md-4 mb-4">
+          <div class="testimonial-card">
+            <div class="stars mb-3 text-warning">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">"Clean layout, beautiful aesthetics, and the Karaage chicken was crispy and tender. Highly recommended!"</p>
+            <div class="client-info">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150" class="client-img" alt="Sarah J.">
+              <div>
+                <h6 class="client-name">Sarah Jenkins</h6>
+                <span class="client-role">Chef Critic</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-6 section-title-wrapper">
+          <span class="section-subtitle">Visuals</span>
+          <h2 class="section-title">Our Restaurant Gallery</h2>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-4 col-sm-6">
+          <div class="rounded overflow-hidden shadow-sm" style="height: 250px;">
+            <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&q=80&w=500" class="w-100 h-100 object-fit-cover hover-zoom" alt="G1">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="rounded overflow-hidden shadow-sm" style="height: 250px;">
+            <img src="https://images.unsplash.com/photo-1591814468924-cafb5722f398?auto=format&fit=crop&q=80&w=500" class="w-100 h-100 object-fit-cover hover-zoom" alt="G2">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="rounded overflow-hidden shadow-sm" style="height: 250px;">
+            <img src="https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&q=80&w=500" class="w-100 h-100 object-fit-cover hover-zoom" alt="G3">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="rounded overflow-hidden shadow-sm" style="height: 250px;">
+            <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&q=80&w=500" class="w-100 h-100 object-fit-cover hover-zoom" alt="G4">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="rounded overflow-hidden shadow-sm" style="height: 250px;">
+            <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=500" class="w-100 h-100 object-fit-cover hover-zoom" alt="G5">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="rounded overflow-hidden shadow-sm" style="height: 250px;">
+            <img src="https://images.unsplash.com/photo-1557872943-16a5ac26437e?auto=format&fit=crop&q=80&w=500" class="w-100 h-100 object-fit-cover hover-zoom" alt="G6">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Maps Section -->
+  <section class="contact-section" id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 mb-5 mb-lg-0">
+          <div class="contact-info-card shadow-sm">
+            <span class="section-subtitle">Get In Touch</span>
+            <h3 class="mb-4">We'd Love To Hear From You</h3>
+            
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="info-details">
+                <h5>Our Location</h5>
+                <p>123 Ramen Way, Sakura District, Tokyo, Japan</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+              <div class="info-details">
+                <h5>Phone Number</h5>
+                <p>+81 (3) 1234-5678</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-envelope"></i></div>
+              <div class="info-details">
+                <h5>Email Address</h5>
+                <p>info@ramenhouse.com</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="map-container">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.747975462272!2d139.7016358!3d35.6909214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188cd0d6b1d277%3A0x8bbd2f0eb345d2e!2sShibuya%20Crossing!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid" 
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <a class="footer-logo" href="/client/index.html">RAMEN <span>HOUSE</span></a>
+          <p class="mb-4">Bringing traditional Japanese flavor recipes to your plate with local premium ingredients.</p>
+          <div class="footer-socials">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-4">
+          <h5 class="footer-title">Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="/client/index.html">Home</a></li>
+            <li><a href="/client/pages/menu.html">Ramen Menu</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <h5 class="footer-title">Opening Hours</h5>
+          <ul class="list-unstyled small">
+            <li class="mb-2">Monday - Friday: 11:00 AM - 10:00 PM</li>
+            <li class="mb-2">Saturday: 11:00 AM - 11:00 PM</li>
+            <li>Sunday: 12:00 PM - 9:00 PM</li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <h5 class="footer-title">Newsletter</h5>
+          <p class="small">Subscribe to get the latest promotions and new items!</p>
+          <div class="input-group">
+            <input type="email" class="form-control form-control-sm" placeholder="Your Email">
+            <button class="btn btn-ramen-primary py-1 px-3" type="button"><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom text-center">
+        <p class="mb-0 text-muted small">&copy; 2026 Ramen House. All Rights Reserved. Crafted for University Final Project.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Custom JS Modules -->
+  <script src="/client/js/api.js"></script>
+  <script src="/client/js/cart.js"></script>
+  <script src="/client/js/auth.js"></script>
+</body>
+</html>
